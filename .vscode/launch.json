@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/.github/store-hash-to-dlt.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "env": {"PYTHONWARNINGS": "default"}
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
