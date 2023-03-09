@@ -3,3 +3,7 @@ dev-requirements:
 
 sync:
 	pip-sync dev.txt
+
+dlt:
+	yarn add ganache
+	yarn run ganache
