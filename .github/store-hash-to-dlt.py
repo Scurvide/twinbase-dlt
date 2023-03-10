@@ -7,13 +7,14 @@ from eth_account.signers.local import LocalAccount
 
 DLT_PROVIDER = Web3.HTTPProvider(os.environ["DLT_HTTP_PROVIDER"])
 DLT_PRIVATE_KEY = os.environ["DLT_PRIVATE_KEY"]
+DLT_GAS_PROVIDED = int(os.environ["DLT_GAS_PROVIDED"])
 
 TWIN_DOCUMENT = "./docs/index.json"
 TRANSACTION_RECEIPT = "./docs/dlt-transaction-receipt.json"
 
 
 def hash_json(document_path: str) -> str:
-    """Hash given json document in minimized format with MD5, returns hash in string format."""
+    """MD5 hash given json document in minimized format, returns hash in string format."""
     with open(document_path) as file:
         document = json.load(file)
     # Sort and minimize the json to ensure the hashed document format is consistent
@@ -77,7 +78,7 @@ def main() -> None:
     transaction = {
         "to": None,  # This is a contract creation transaction, so there is no recipient
         "from": account.address,
-        "gas": 100000,
+        "gas": DLT_GAS_PROVIDED,
         "gasPrice": web3.eth.gas_price,
         "nonce": web3.eth.get_transaction_count(account.address),
         "data": document_hash,
