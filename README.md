@@ -29,6 +29,39 @@ You can fetch twin documents in Python with the [dtweb-python](https://github.co
 
 Forks can be used as well and might make updating easier, but their use has not been properly tested.
 
+## Store hashes of twin documents to an Ethereum distributed ledger (DLT)
+Hashes of twin documents (`index.json`) can be stored to a DLT for later verification of the integrity of the document.
+
+Hashes may be stored to a DLT automatically with GitHub Actions. For the Action to work you need to first collect following information related to the DLT used:
+- `DLT_TYPE`
+  - DLT name, for example `Ethereum Sepolia Testnet`. This is used to sufficiently describe the DLT that is being used.
+- `DLT_HTTP_PROVIDER`
+  - DLT HTTP endpoint, which can be get from various node providers for free. For example, [Infura](https://www.infura.io/).
+- `DLT_PRIVATE_KEY`
+  - An [Ethereum account](https://ethereum.org/en/developers/docs/accounts/) (i.e. private key) with some currency for transaction fees.
+- `DLT_GAS_PROVIDED`
+  - Maximum gas limit that is provided with transactions. The realized gas usage depends on the difficulty of mining the transaction. Current gas market price against ether is calculated in the script. [Gas and fees info](https://ethereum.org/en/developers/docs/gas/).
+
+The secrets and variables are set in the repository settings on GitHub under  
+ `Settings` > `Secrets and variables` > `Actions`.
+   - Set `DLT_HTTP_PROVIDER` and `DLT_PRIVATE_KEY` as `New repository secret`.
+   - Set `DLT_TYPE` and `DLT_GAS_PROVIDED` as `Variables` > `New repository variable`.
+
+Examples of the GitHub secrets and variables required:
+```
+# Repository secrets:
+DLT_HTTP_PROVIDER=https://sepolia.infura.io/v3/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DLT_PRIVATE_KEY=0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+# Repository variables:
+DLT_TYPE="Ethereum Sepolia Testnet"
+DLT_GAS_PROVIDED=100000
+```
+
+Once the secrets are set, the GitHub Action `Submit twin document hash to distributed ledger` is run automatically on commit. Only hashes of twin documents that have changed are stored to the DLT.
+
+**Information of the transaction and hash is stored to a `hash-info.json` file within the twin folder.** The value `transaction_hash` in this file can be used to discover the transaction within the DLT. The hash found in the DLT transaction as `input` should match the `twin_json_hash` value found in `hash-info.json`.
+
 ### Creating new twins to your Twinbase
 
 Recommended method to create new twins is to use the new-twin page found on the front page of each Twinbase.
