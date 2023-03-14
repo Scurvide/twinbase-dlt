@@ -19,6 +19,25 @@ You can browse the web interface of this Twinbase from the URL shown on the `bas
 
 You can fetch twin documents in Python with the [dtweb-python](https://github.com/juusoautiosalo/dtweb-python) library. Available as `dtweb` from pip.
 
+### Creating new twins to your Twinbase
+
+Recommended method to create new twins is to use the new-twin page found on the front page of each Twinbase.
+
+After creating a twin, you need to activate its DT identifier with one of these methods: 
+   - To activate the automatically generated dtid.org identifier, send the values of dt-id and hosting-iri of each twin to [this form](https://dtid.org/form).
+   - Or you can overwrite the dt-id with the URL given by any [URL shortener service](https://en.wikipedia.org/wiki/URL_shortening#Services) or the [perma-id](https://github.com/perma-id/w3id.org) service. The URL needs to redirect to the hosting-iri.
+
+## To start developing Twinbase
+
+Contribution guidelines are not yet established, but useful contributions are welcome! For development, you can try this:
+1. Create your own Twinbase using the Template.
+2. Modify your Twinbase as you wish in GitHub.
+3. Fork [twinbase/twinbase](https://github.com/twinbase/twinbase). (Do not activate Actions to avoid unnecessary commits.)
+4. Manually copy the useful modifications from the repository created with the Template.
+5. Submit a pull request.
+
+Local development is a bit tricky as Twinbase uses GitHub Actions as an intergal part of the platform, but feel free to try!
+
 ## To create your own Twinbase
 
 1. Create a new repository with the "Use this template" button on the [twinbase/twinbase](https://github.com/twinbase/twinbase) page. (Sign in to GitHub if you can't see the button.)
@@ -61,25 +80,6 @@ DLT_GAS_PROVIDED=100000
 Once the secrets are set, the GitHub Action `Submit twin document hash to distributed ledger` is run automatically on commit. Only hashes of twin documents that have changed are stored to the DLT.
 
 **Information of the transaction and hash is stored to a `hash-info.json` file within the twin folder.** The value `transaction_hash` in this file can be used to discover the transaction within the DLT. The hash found in the DLT transaction as `input` should match the `twin_json_hash` value found in `hash-info.json`.
-
-### Creating new twins to your Twinbase
-
-Recommended method to create new twins is to use the new-twin page found on the front page of each Twinbase.
-
-After creating a twin, you need to activate its DT identifier with one of these methods: 
-   - To activate the automatically generated dtid.org identifier, send the values of dt-id and hosting-iri of each twin to [this form](https://dtid.org/form).
-   - Or you can overwrite the dt-id with the URL given by any [URL shortener service](https://en.wikipedia.org/wiki/URL_shortening#Services) or the [perma-id](https://github.com/perma-id/w3id.org) service. The URL needs to redirect to the hosting-iri.
-
-## To start developing Twinbase
-
-Contribution guidelines are not yet established, but useful contributions are welcome! For development, you can try this:
-1. Create your own Twinbase using the Template.
-2. Modify your Twinbase as you wish in GitHub.
-3. Fork [twinbase/twinbase](https://github.com/twinbase/twinbase). (Do not activate Actions to avoid unnecessary commits.)
-4. Manually copy the useful modifications from the repository created with the Template.
-5. Submit a pull request.
-
-Local development is a bit tricky as Twinbase uses GitHub Actions as an intergal part of the platform, but feel free to try!
 
 ## Support
 
