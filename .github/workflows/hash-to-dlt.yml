@@ -32,8 +32,8 @@ jobs:
         pip install -r requirements.txt
     - name: Submit hash
       env:
-          DLT_HTTP_PROVIDER: ${{ variables.DLT_TYPE }}
-          DLT_GAS_PROVIDED: ${{ variables.DLT_GAS_PROVIDED }}
+          DLT_HTTP_PROVIDER: ${{ vars.DLT_TYPE }}
+          DLT_GAS_PROVIDED: ${{ vars.DLT_GAS_PROVIDED }}
           DLT_HTTP_PROVIDER: ${{ secrets.DLT_HTTP_PROVIDER }}
           DLT_PRIVATE_KEY: ${{ secrets.DLT_PRIVATE_KEY }}
       run: |
