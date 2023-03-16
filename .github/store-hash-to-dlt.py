@@ -3,12 +3,12 @@ import json
 import hashlib
 
 from web3 import Web3
+from web3.types import TxParams
 from eth_account.signers.local import LocalAccount
 
 DLT_TYPE = os.environ["DLT_TYPE"]
 DLT_HTTP_NODE = os.environ["DLT_HTTP_NODE"]
 DLT_PRIVATE_KEY = os.environ["DLT_PRIVATE_KEY"]
-DLT_GAS_PROVIDED = int(os.environ["DLT_GAS_PROVIDED"])
 
 DLT_PROVIDER = Web3.HTTPProvider(DLT_HTTP_NODE)
 
@@ -73,14 +73,16 @@ def submit_twin_hash_to_dlt(dlt: Web3, twin_hash: str) -> str:
     account: LocalAccount = dlt.eth.account.from_key(DLT_PRIVATE_KEY)
 
     # Create the transaction object
-    transaction = {
-        "to": None,  # This is a contract creation transaction, so there is no recipient
+    transaction: TxParams = {
         "from": account.address,
-        "gas": DLT_GAS_PROVIDED,
         "gasPrice": dlt.eth.gas_price,
         "nonce": dlt.eth.get_transaction_count(account.address),
-        "data": twin_hash,
+        "data": twin_hash,  # type: ignore
     }
+
+    # Estimate gas price
+    gas_required = dlt.eth.estimate_gas(transaction)
+    transaction["gas"] = gas_required * 2  # Ensure success with multiplier
 
     # Sign the transaction with the account's private key
     signed_transaction = dlt.eth.account.sign_transaction(

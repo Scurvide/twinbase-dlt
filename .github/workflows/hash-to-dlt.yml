@@ -33,7 +33,6 @@ jobs:
     - name: Submit hash
       env:
           DLT_TYPE: ${{ vars.DLT_TYPE }}
-          DLT_GAS_PROVIDED: ${{ vars.DLT_GAS_PROVIDED }}
           DLT_HTTP_NODE: ${{ vars.DLT_HTTP_NODE }}
           DLT_PRIVATE_KEY: ${{ secrets.DLT_PRIVATE_KEY }}
       run: |
