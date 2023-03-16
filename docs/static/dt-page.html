@@ -129,13 +129,15 @@
           console.log(transaction)
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
-            let block = web3.eth.getBlock(transaction.blockHash).then((block) => {
-              console.log(block);
-            });
+            web3.eth.getBlock(transaction.blockHash)
+              .then((block) => {
+                console.log(block);
+                var date = new Date(block.timestamp * 1000).toISOString();
+                document.getElementById("dlt-verify").hidden = true;
+                document.getElementById("dlt-verified").hidden = false;
+                document.getElementById("dlt-verified").innerHTML = "Verified! <br> " + date;
+              });
 
-            document.getElementById("dlt-verify").hidden = true;
-            document.getElementById("dlt-verified-date").innerText = "this is a timestamp";
-            document.getElementById("dlt-verified").innerHTML = "Verified! <br> this is a timestamp";
           } else {
             console.log("Document could not be verified");
           };
