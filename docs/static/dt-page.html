@@ -124,7 +124,7 @@
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
             document.getElementById("dlt-verify").innerHTML = "Verified!";
-            document.getElementById("dlt-verify").removeAttribute("id");
+            document.getElementById("dlt-verify").removeAttribute("onclick");;
           } else {
             console.log("Document could not be verified");
           };
