@@ -118,14 +118,16 @@
       .then((response) => response.json())
       .then((json) => {
         hashInfo = json;
-        console.log(hashInfo)
+        console.log(hashInfo);
       });
 
     var twinHash;
-    fetch("./index.json").then((response) => {
-      twinHash = CryptoJS.MD5(JSON.stringify(response.json()));
-      console.log(twinHash);
-    });
+    fetch("./index.json")
+      .then((response) => response.json())
+      .then((twinDocument) => {
+        twinHash = CryptoJS.MD5(JSON.stringify(twinDocument));
+        console.log(twinDocument);
+      });
 
     // Connect and create a client to a DLT node
     var web3 = new Web3(node);
