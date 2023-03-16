@@ -1,0 +1,6 @@
+{
+    "dlt": "Ethereum Sepolia Testnet",
+    "node": "https://sepolia.infura.io/v3/48b000b110b04b7da85bab51b8c00e98",
+    "twinHash": "0x7a75a6a4222319996b378546e9efd790",
+    "transactionHash": "0x288f8822b6d2592b28668299c2b78b8d7ba35acfdc85c9e9ab553ad8ee435534"
+}
