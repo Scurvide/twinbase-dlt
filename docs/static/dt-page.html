@@ -125,7 +125,7 @@
           console.log(transaction)
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
-            document.getElementById("dlt-verify").innerHTML('<span class="material - symbols - outlined">check_circle</span >');
+            document.getElementById("dlt-verify").innerHTML = '<span class="material - symbols - outlined">check_circle</span >';
           } else {
             console.log("Document could not be verified");
           };
