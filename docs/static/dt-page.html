@@ -8,8 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../static/jsonview.bundle.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     div.max600 {
@@ -36,7 +35,7 @@
         <h1>DT document for <span id="name"></span></h1>
         <span>
           <button id="dlt-verify">Verify document</button>
-          <span id="dlt-verified" hidden class="material - symbols - outlined">check_circle</span>
+          <span id="dlt-verified" hidden class="material-icons">check_circle</span>
         </span>
 
         <p>DT identifier: <a id="dt-id" href=""></a></p>
@@ -128,7 +127,8 @@
           console.log(transaction)
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
-            document.getElementById("dlt-verified").style.visibility = "visible";
+            document.getElementById("dlt-verify").hidden = "true";
+            document.getElementById("dlt-verified").hidden = "false";
           } else {
             console.log("Document could not be verified");
           };
