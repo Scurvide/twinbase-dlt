@@ -33,12 +33,12 @@
 
         <h1>DT document for <span id="name"></span></h1>
 
-        <div id="dlt-verification">
-          <div id="dlt-verify">
-            <button id="dlt-verify-button">Verify document</button>
-          </div>
-          <div id="dlt-verified" hidden=""></div>
+        <p id="dlt-verification">
+        <div id="dlt-verify">
+          <button id="dlt-verify-button">Verify document</button>
         </div>
+        <div id="dlt-verified" hidden=""></div>
+        </p>
 
         <p>DT identifier: <a id="dt-id" href=""></a></p>
 
@@ -105,6 +105,8 @@
   </script>
 
   <script type="text/javascript" src="../static/web3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
   <script type="text/javascript">
     // import { Web3 } from "../static/web3.min.js";
 
@@ -119,15 +121,21 @@
         console.log(hashInfo)
       });
 
+    var twinHash;
+    fetch("./index.json").then((response) => {
+      twinHash = CryptoJS.MD5(JSON.stringify(response.json()));
+      console.log(twinHash);
+    });
+
     // Connect and create a client to a DLT node
     var web3 = new Web3(node);
 
-    function verify_twin_hash() {
+    function verifyTwinHash() {
       console.log("Verifying document...")
       web3.eth.getTransaction(hashInfo.transactionHash)
         .then((transaction) => {
           console.log(transaction)
-          if (transaction.input === hashInfo.twinHash) {
+          if (transaction.input === twinHash) {
             console.log("Document verified");
             web3.eth.getBlock(transaction.blockHash)
               .then((block) => {
@@ -135,7 +143,7 @@
                 var date = new Date(block.timestamp * 1000).toISOString();
                 document.getElementById("dlt-verify").hidden = true;
                 document.getElementById("dlt-verified").hidden = false;
-                document.getElementById("dlt-verified").innerHTML = "Verified! <br> " + date;
+                document.getElementById("dlt-verified").innerHTML = "Verified! " + date;
               });
 
           } else {
@@ -144,7 +152,7 @@
         })
     };
 
-    document.getElementById("dlt-verify-button").onclick = verify_twin_hash;
+    document.getElementById("dlt-verify-button").onclick = verifyTwinHash;
 
   </script>
 
