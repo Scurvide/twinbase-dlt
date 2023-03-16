@@ -121,11 +121,8 @@
     function verify_twin_hash() {
       console.log("Verifying document...")
       web3.eth.getTransaction(hashInfo.transactionHash)
-        .then((error, transaction) => {
-          console.log(error);
-          console.log(transaction);
-          return transaction;
-        }).then((transaction) => {
+        .then((transaction) => {
+          console.log(transaction)
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
             document.getElementById("dlt-verify").innerHTML('<span class="material - symbols - outlined">check_circle</span >');
