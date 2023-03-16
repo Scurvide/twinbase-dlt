@@ -32,10 +32,7 @@
       <div class="max600">
 
         <h1>DT document for <span id="name"></span></h1>
-        <span>
-          <button id="dlt-verify">Verify document</button>
-          <button id="dlt-verified" hidden>Verified!</button>
-        </span>
+        <button id="dlt-verify">Verify document</button>
 
         <p>DT identifier: <a id="dt-id" href=""></a></p>
 
@@ -126,8 +123,8 @@
           console.log(transaction)
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
-            document.getElementById("dlt-verify").hidden = true;
-            document.getElementById("dlt-verified").hidden = false;
+            document.getElementById("dlt-verify").innerHTML = "Verified!";
+            document.getElementById("dlt-verify").removeAttribute("id");
           } else {
             console.log("Document could not be verified");
           };
