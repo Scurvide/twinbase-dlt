@@ -77,9 +77,9 @@ DLT_HTTP_NODE=https://sepolia.infura.io/v3/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 DLT_GAS_PROVIDED=100000
 ```
 
-Once the secrets are set, the GitHub Action `Submit twin document hash to distributed ledger` is run automatically on commit. Only hashes of twin documents that have changed are stored to the DLT.
+Once the secrets are set, the GitHub Action `Submit twin document hash to DLT` is run automatically on commit. Only hashes of twin documents that have changed are stored to the DLT.
 
-**Information of the transaction and hash is stored to a `hash-info.json` file within the twin folder.** The value `transaction_hash` in this file can be used to discover the transaction within the DLT. The hash found in the DLT transaction as `input` should match the `twin_json_hash` value found in `hash-info.json`.
+**Information of the transaction and hash is stored to a `hash-info.json` file within the twin folder.** The value `transactionHash` in this file can be used to discover the transaction within the DLT. The hash found in the DLT transaction as `input` should match the `twinHash` value found in `hash-info.json`.
 
 ## Support
 

@@ -1,10 +1,4 @@
-# This workflow uses the YAML versions of twindocs to override the corresponding JSON versions.
-
-# Run this workflow manually if you want to sync your JSON and YAML twindoc files with each other.
-
-# Note: Any changes that apply only to the JSON versions of the twindocs will be overwritten!
-
-name: Submit twin document hash to distributed ledger
+name: Submit twin document hash to DLT
 
 # Controls when the action will run.
 on:
