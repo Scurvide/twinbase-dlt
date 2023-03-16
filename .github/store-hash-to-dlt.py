@@ -33,7 +33,7 @@ def hash_requires_update(dlt: Web3, twin_hash: str, twin_hash_info_file: str) ->
     try:
         # Attempt to find transaction hash from transaction file
         with open(twin_hash_info_file) as hash_info:
-            transaction_hash = json.load(hash_info)["transaction_hash"]
+            transaction_hash = json.load(hash_info)["transactionHash"]
         # Get transaction from DLT
         transaction = dlt.eth.get_transaction(transaction_hash)
         # Compare hashes
@@ -55,8 +55,8 @@ def save_transaction_info(
     # Collect transaction info
     transaction_info = {
         "dlt": DLT_TYPE,
-        "twin_json_hash": twin_hash,
-        "transaction_hash": transaction_hash,
+        "twinHash": twin_hash,
+        "transactionHash": transaction_hash,
     }
     with open(twin_hash_info_file, "w+") as file:
         # Format and dump the transaction info to file
