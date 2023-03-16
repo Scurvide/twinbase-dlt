@@ -152,6 +152,13 @@
         document.getElementById("dlt-validate-reason").innerText = "No transaction hash found";
       };
 
+      if (!hashInfo.node) {
+        console.log("No distributed ledger node found");
+        document.getElementById("dlt-validating").hidden = true;
+        document.getElementById("dlt-validate-fail").hidden = false;
+        document.getElementById("dlt-validate-reason").innerText = "No distributed ledger node found";
+      };
+
       if (!twinHash) {
         console.log("Twin document could not be hashed");
         document.getElementById("dlt-validating").hidden = true;
