@@ -5,6 +5,7 @@
 
   <title id="title">Twinbase</title>
 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../static/jsonview.bundle.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
@@ -33,11 +34,18 @@
 
         <h1>DT document for <span id="name"></span></h1>
 
-        <p id="dlt-verification">
-        <div id="dlt-verify">
-          <button id="dlt-verify-button">Verify document</button>
-        </div>
-        <div id="dlt-verified" hidden=""></div>
+        <p>
+          <span id="dlt-validate">
+            <button id="dlt-validate-button">Validate document</button>
+          </span>
+          <span id="dlt-validating" hidden="">
+            <span class="material-icons">more_horiz</span>
+          </span>
+          <span>
+            <span id="dlt-validate-success" hidden=""><span class="material-icons">check</span></span>
+            <span id="dlt-validate-fail" hidden=""><span class="material-icons">close</span></span>
+            <span id="dlt-validate-reason"></span>
+          </span>
         </p>
 
         <p>DT identifier: <a id="dt-id" href=""></a></p>
@@ -104,57 +112,82 @@
       })
   </script>
 
-  <script type="text/javascript" src="../static/web3.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
+  <script src="../static/web3.min.js"></script>
+  <script src="../static/crypto-js/core.min.js"></script>
+  <script src="../static/crypto-js/md5.js"></script>
   <script type="text/javascript">
-    // import { Web3 } from "../static/web3.min.js";
-
-    var node = "https://sepolia.infura.io/v3/48b000b110b04b7da85bab51b8c00e98";
-
-    // Read hash-info to variable
-    var hashInfo;
+    // Read transaction hash to variable
+    var hashInfo
     fetch("./hash-info.json")
       .then((response) => response.json())
       .then((json) => {
         hashInfo = json;
-        console.log(hashInfo);
       });
 
+    // Hash the twin JSON document
     var twinHash;
     fetch("./index.json")
       .then((response) => response.json())
       .then((twinDocument) => {
-        twinHash = CryptoJS.MD5(JSON.stringify(twinDocument));
-        console.log(twinDocument);
+        let stringToHash = JSON.stringify(
+          Object.keys(twinDocument).sort()
+            .reduce((obj, key) => {
+              obj[key] = twinDocument[key];
+              return obj;
+            }, {})
+        );
+        twinHash = "0x" + CryptoJS.MD5(stringToHash).toString();
       });
 
-    // Connect and create a client to a DLT node
-    var web3 = new Web3(node);
+    function validateTwinHash() {
+      console.log("Validating document...")
 
-    function verifyTwinHash() {
-      console.log("Verifying document...")
+      document.getElementById("dlt-validate").hidden = true;
+      document.getElementById("dlt-validating").hidden = false;
+
+      if (!hashInfo || !hashInfo.transactionHash) {
+        console.log("No transaction hash found");
+        document.getElementById("dlt-validating").hidden = true;
+        document.getElementById("dlt-validate-fail").hidden = false;
+        document.getElementById("dlt-validate-reason").innerText = "No transaction hash found";
+      };
+
+      if (!twinHash) {
+        console.log("Twin document could not be hashed");
+        document.getElementById("dlt-validating").hidden = true;
+        document.getElementById("dlt-validate-fail").hidden = false;
+        document.getElementById("dlt-validate-reason").innerText = "Twin document could not be hashed";
+      };
+
+      // Connect and create a client to a DLT node
+      let web3 = new Web3(hashInfo.node);
+
       web3.eth.getTransaction(hashInfo.transactionHash)
         .then((transaction) => {
-          console.log(transaction)
+
           if (transaction.input === twinHash) {
-            console.log("Document verified");
+            console.log("Document is valid");
+
+            document.getElementById("dlt-validating").hidden = true;
+            document.getElementById("dlt-validate-success").hidden = false;
+
+            // Get timestamp for document validation
             web3.eth.getBlock(transaction.blockHash)
               .then((block) => {
-                console.log(block);
-                var date = new Date(block.timestamp * 1000).toISOString();
-                document.getElementById("dlt-verify").hidden = true;
-                document.getElementById("dlt-verified").hidden = false;
-                document.getElementById("dlt-verified").innerHTML = "Verified! " + date;
+                let date = new Date(block.timestamp * 1000).toISOString();
+                document.getElementById("dlt-validate-reason").innerText = "Validated against hash stored to " + hashInfo.dlt + " on " + date;
               });
 
           } else {
-            console.log("Document could not be verified");
+            console.log("Unmatching twin document hash");
+            document.getElementById("dlt-validating").hidden = true;
+            document.getElementById("dlt-validate-fail").hidden = false;
+            document.getElementById("dlt-validate-reason").innerText = "Unmatching twin document hash";
           };
         })
     };
 
-    document.getElementById("dlt-verify-button").onclick = verifyTwinHash;
+    document.getElementById("dlt-validate-button").onclick = validateTwinHash;
 
   </script>
 
