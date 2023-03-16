@@ -103,7 +103,7 @@
   <script type="text/javascript">
     import { Web3 } from "../static/web3.min.js";
 
-    var ethereum_node = "https://sepolia.infura.io/v3/48b000b110b04b7da85bab51b8c00e98";
+    var node = "https://sepolia.infura.io/v3/48b000b110b04b7da85bab51b8c00e98";
 
     // Read hash-info to variable
     var hashInfo;
@@ -115,11 +115,13 @@
       });
 
     // Connect and create a client to a DLT node
-    var eth = new Web3(ethereum_node);
+    var web3 = new Web3(node);
 
     function verify_twin_hash() {
-      eth.getTransaction(hashInfo.transactionHash)
+      console.log("Verifying document...")
+      web3.eth.getTransaction(hashInfo.transactionHash)
         .then((error, transaction) => {
+          console.log(error);
           console.log(transaction);
           return transaction;
         }).then((transaction) => {
