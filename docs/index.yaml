@@ -6,3 +6,5 @@ new_twin_url: https://github.com/Scurvide/twinbase-dlt/new/main?filename=docs/ed
 twins:
 - url: https://Scurvide.github.io/twinbase-dlt/example-twin-e8fde635-e14a-41d7-85f0-676cd10cae32
   name: Example twin
+- url: https://Scurvide.github.io/twinbase-dlt/a4d88a25-c31a-46b1-8681-ad899c1f2421
+  name: Juuso's twin for testing
