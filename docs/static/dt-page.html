@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../static/jsonview.bundle.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     div.max600 {
@@ -32,6 +34,7 @@
       <div class="max600">
 
         <h1>DT document for <span id="name"></span></h1>
+        <button id="dlt-verify">Verify document</button>
 
         <p>DT identifier: <a id="dt-id" href=""></a></p>
 
@@ -97,9 +100,10 @@
       })
   </script>
 
-  <script type="text/javascript" src="../static/web3.min.js"></script>
   <script type="text/javascript">
-    var node = "https://sepolia.infura.io/v3/48b000b110b04b7da85bab51b8c00e98";
+    import { Web3 } from "../static/web3.min.js";
+
+    var ethereum_node = "https://sepolia.infura.io/v3/48b000b110b04b7da85bab51b8c00e98";
 
     // Read hash-info to variable
     var hashInfo;
@@ -111,16 +115,24 @@
       });
 
     // Connect and create a client to a DLT node
-    var eth = new web3.eth(node);
+    var eth = new Web3(ethereum_node);
 
     function verify_twin_hash() {
       eth.getTransaction(hashInfo.transactionHash)
         .then((error, transaction) => {
-          console.log(transaction)
+          console.log(transaction);
+          return transaction;
+        }).then((transaction) => {
+          if (transaction.input === hashInfo.twinHash) {
+            console.log("Document verified");
+            document.getElementById("dlt-verify").innerHTML('<span class="material - symbols - outlined">check_circle</span >');
+          } else {
+            console.log("Document could not be verified");
+          };
         })
     };
 
-    document.getElementById("clickMe").onclick = verify_twin_hash;
+    document.getElementById("dlt-verify").onclick = verify_twin_hash;
 
   </script>
 
