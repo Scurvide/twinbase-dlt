@@ -54,7 +54,7 @@ Hashes of twin documents (`index.json`) can be stored to a DLT for later verific
 Hashes may be stored to a DLT automatically with GitHub Actions. For the Action to work you need to first collect following information related to the DLT used:
 - `DLT_TYPE`
   - DLT name, for example `Ethereum Sepolia Testnet`. This is used to sufficiently describe the DLT that is being used.
-- `DLT_HTTP_PROVIDER`
+- `DLT_HTTP_NODE`
   - DLT HTTP endpoint, which can be get from various node providers for free. For example, [Infura](https://www.infura.io/).
 - `DLT_PRIVATE_KEY`
   - An [Ethereum account](https://ethereum.org/en/developers/docs/accounts/) (i.e. private key) with some currency for transaction fees.
@@ -63,17 +63,17 @@ Hashes may be stored to a DLT automatically with GitHub Actions. For the Action 
 
 The secrets and variables are set in the repository settings on GitHub under  
  `Settings` > `Secrets and variables` > `Actions`.
-   - Set `DLT_HTTP_PROVIDER` and `DLT_PRIVATE_KEY` as `New repository secret`.
-   - Set `DLT_TYPE` and `DLT_GAS_PROVIDED` as `Variables` > `New repository variable`.
+   - Set `DLT_PRIVATE_KEY` as `New repository secret`.
+   - Set `DLT_HTTP_NODE`, `DLT_TYPE` and `DLT_GAS_PROVIDED` as `Variables` > `New repository variable`.
 
 Examples of the GitHub secrets and variables required:
 ```
 # Repository secrets:
-DLT_HTTP_PROVIDER=https://sepolia.infura.io/v3/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 DLT_PRIVATE_KEY=0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 # Repository variables:
 DLT_TYPE="Ethereum Sepolia Testnet"
+DLT_HTTP_NODE=https://sepolia.infura.io/v3/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 DLT_GAS_PROVIDED=100000
 ```
 

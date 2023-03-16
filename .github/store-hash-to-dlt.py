@@ -6,9 +6,11 @@ from web3 import Web3
 from eth_account.signers.local import LocalAccount
 
 DLT_TYPE = os.environ["DLT_TYPE"]
-DLT_PROVIDER = Web3.HTTPProvider(os.environ["DLT_HTTP_PROVIDER"])
+DLT_HTTP_NODE = os.environ["DLT_HTTP_NODE"]
 DLT_PRIVATE_KEY = os.environ["DLT_PRIVATE_KEY"]
 DLT_GAS_PROVIDED = int(os.environ["DLT_GAS_PROVIDED"])
+
+DLT_PROVIDER = Web3.HTTPProvider(DLT_HTTP_NODE)
 
 TWIN_DOCUMENT_FOLDERS = "./docs"
 HASH_INFO_FILE = "hash-info.json"
@@ -55,6 +57,7 @@ def save_transaction_info(
     # Collect transaction info
     transaction_info = {
         "dlt": DLT_TYPE,
+        "node": DLT_HTTP_NODE,
         "twinHash": twin_hash,
         "transactionHash": transaction_hash,
     }
