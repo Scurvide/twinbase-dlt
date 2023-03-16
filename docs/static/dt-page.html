@@ -32,7 +32,14 @@
       <div class="max600">
 
         <h1>DT document for <span id="name"></span></h1>
-        <button id="dlt-verify">Verify document</button>
+        <div id="dlt-verification">
+          <div id="dlt-verify">
+            <button id="dlt-verify-button">Verify document</button>
+          </div>
+          <div id="dlt-verified" hidden="">
+            <span>Verified!</span><br><span id="dlt-verified-date"></span>
+          </div>
+        </div>
 
         <p>DT identifier: <a id="dt-id" href=""></a></p>
 
@@ -123,15 +130,18 @@
           console.log(transaction)
           if (transaction.input === hashInfo.twinHash) {
             console.log("Document verified");
-            document.getElementById("dlt-verify").innerHTML = "Verified!";
-            document.getElementById("dlt-verify").removeAttribute("onclick");;
+            let block = web3.eth.getBlock(transaction.blockHash);
+            console.log(block);
+            document.getElementById("dlt-verify").hidden = true;
+            document.getElementById("dlt-verified-date").innerText = "this is a timestamp";
+            document.getElementById("dlt-verified").hidden = false;
           } else {
             console.log("Document could not be verified");
           };
         })
     };
 
-    document.getElementById("dlt-verify").onclick = verify_twin_hash;
+    document.getElementById("dlt-verify-button").onclick = verify_twin_hash;
 
   </script>
 
