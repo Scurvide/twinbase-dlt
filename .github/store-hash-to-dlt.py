@@ -3,12 +3,12 @@ import json
 import hashlib
 
 from web3 import Web3
-from web3.types import TxParams
 from eth_account.signers.local import LocalAccount
 
 DLT_TYPE = os.environ["DLT_TYPE"]
 DLT_HTTP_NODE = os.environ["DLT_HTTP_NODE"]
 DLT_PRIVATE_KEY = os.environ["DLT_PRIVATE_KEY"]
+DLT_GAS_PROVIDED = int(os.environ["DLT_GAS_PROVIDED"])
 
 DLT_PROVIDER = Web3.HTTPProvider(DLT_HTTP_NODE)
 
@@ -66,23 +66,21 @@ def save_transaction_info(
         json.dump(transaction_info, file, indent=4)
 
 
-def submit_twin_hash_to_dlt(dlt: Web3, twin_hash: str) -> str:
+def submit_twin_hash_to_dlt(dlt: Web3, nonce: int, twin_hash: str) -> str:
     """Submit hash to DLT, returns transaction hash."""
 
     # Create an account helper with private key
     account: LocalAccount = dlt.eth.account.from_key(DLT_PRIVATE_KEY)
 
     # Create the transaction object
-    transaction: TxParams = {
+    transaction = {
+        "to": None,  # This is a contract creation transaction, so there is no recipient
         "from": account.address,
+        "gas": DLT_GAS_PROVIDED,
         "gasPrice": dlt.eth.gas_price,
-        "nonce": dlt.eth.get_transaction_count(account.address),
-        "data": twin_hash,  # type: ignore
+        "nonce": nonce,
+        "data": twin_hash,
     }
-
-    # Estimate gas price
-    gas_required = dlt.eth.estimate_gas(transaction)
-    transaction["gas"] = gas_required * 2  # Ensure success with multiplier
 
     # Sign the transaction with the account's private key
     signed_transaction = dlt.eth.account.sign_transaction(
@@ -99,6 +97,10 @@ def main() -> None:
     dlt = Web3(DLT_PROVIDER)
     if not dlt.is_connected():
         raise ConnectionError("Could not connect to DLT Provider:", DLT_PROVIDER)
+
+    # Get starting nonce
+    account: LocalAccount = dlt.eth.account.from_key(DLT_PRIVATE_KEY)
+    nonce: int = dlt.eth.get_transaction_count(account.address)
 
     # Loop through twin folders, collect hashes and write them to DLT
     for folder in os.listdir(TWIN_DOCUMENT_FOLDERS):
@@ -125,7 +127,8 @@ def main() -> None:
             continue
 
         print(f"Submitting twin document hash to DLT: {twin_document}")
-        transaction_hash = submit_twin_hash_to_dlt(dlt, twin_hash)
+        transaction_hash = submit_twin_hash_to_dlt(dlt, nonce, twin_hash)
+        nonce += 1  # Increment nonce for following transactions
 
         # Save transaction info to hash file for reference
         save_transaction_info(twin_hash, transaction_hash, twin_hash_file)
