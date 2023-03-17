@@ -64,7 +64,7 @@ jobs:
           DLT_HTTP_NODE: ${{ vars.DLT_HTTP_NODE }}
           DLT_GAS_PROVIDED: ${{ vars.DLT_GAS_PROVIDED }}
           DLT_PRIVATE_KEY: ${{ secrets.DLT_PRIVATE_KEY }}
-      if: ${{ vars.DLT_AUTOMATIC == "true" }}
+      if: ${{ vars.DLT_AUTOMATIC == 'true' }}
       run: |
         python ${GITHUB_WORKSPACE}/.github/store-hash-to-dlt.py
         git add -A
