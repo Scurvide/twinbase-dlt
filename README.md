@@ -60,11 +60,13 @@ Hashes may be stored to a DLT automatically with GitHub Actions. For the Action 
   - An [Ethereum account](https://ethereum.org/en/developers/docs/accounts/) (i.e. private key) with some currency for transaction fees.
 - `DLT_GAS_PROVIDED`
   - Maximum gas limit that is provided with transactions. The realized gas usage depends on the difficulty of mining the transaction. Current gas market price against ether is calculated in the script. [Gas and fees info](https://ethereum.org/en/developers/docs/gas/).
+- `DLT_AUTOMATIC`
+  - If the hashes should be stored to DLT automatically on code push or pull requests. Otherwise, the workflow can be run manually from GitHub Actions: `Submit twin document hash to DLT`.
 
 The secrets and variables are set in the repository settings on GitHub under  
  `Settings` > `Secrets and variables` > `Actions`.
    - Set `DLT_PRIVATE_KEY` as `New repository secret`.
-   - Set `DLT_HTTP_NODE`, `DLT_TYPE` and `DLT_GAS_PROVIDED` as `Variables` > `New repository variable`.
+   - Set `DLT_HTTP_NODE`, `DLT_TYPE`, `DLT_GAS_PROVIDED` and `DLT_AUTOMATIC` as `Variables` > `New repository variable`.
 
 Examples of the GitHub secrets and variables required:
 ```
@@ -75,9 +77,10 @@ DLT_PRIVATE_KEY=0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 DLT_TYPE="Ethereum Sepolia Testnet"
 DLT_HTTP_NODE=https://sepolia.infura.io/v3/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 DLT_GAS_PROVIDED=100000
+DLT_AUTOMATIC=false
 ```
 
-Once the secrets are set, the GitHub Action `Submit twin document hash to DLT` is run automatically on commit. Only hashes of twin documents that have changed are stored to the DLT.
+Once the secrets are set, and the `DLT_AUTOMATIC` variable is set `true`, the hashes are automatically updated to the ledger on code push or pull requests. Only hashes of twin documents that have changed are stored to the DLT.
 
 **Information of the transaction and hash is stored to a `hash-info.json` file within the twin folder.** The value `transactionHash` in this file can be used to discover the transaction within the DLT. The hash found in the DLT transaction as `input` should match the `twinHash` value found in `hash-info.json`.
 
