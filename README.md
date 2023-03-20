@@ -61,8 +61,8 @@ Hashes may be stored to a DLT automatically with GitHub Actions. For the Action 
 - `DLT_GAS_PROVIDED`
   - Maximum gas limit that is provided with transactions. The realized gas usage depends on the difficulty of mining the transaction. Current gas market price against ether is calculated in the script. [Gas and fees info](https://ethereum.org/en/developers/docs/gas/).
 - `DLT_AUTOMATIC`
-  - Run `Submit twin document hash to DLT` GitHub Action workflow automatically when code is pushed or pull requests merged to the repository. Otherwise, it can be run manually fron the `Actions` tab. Only hashes of twin documents that have changed are stored to the DLT.
-  - `true` or `false` values.
+  - Set to `true` to send hashes to DLT automatically when a DT document is modified or created. Otherwise, send hashes manually by running the `Submit twin document hash to DLT` workflow from the `Actions` tab.
+  - Allowed values: `true` or `false`
 
 The secrets and variables are set in the repository settings on GitHub under  
  `Settings` > `Secrets and variables` > `Actions`.
