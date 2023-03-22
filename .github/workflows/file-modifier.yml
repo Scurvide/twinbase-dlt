@@ -68,7 +68,7 @@ jobs:
       run: |
         python ${GITHUB_WORKSPACE}/.github/store-hash-to-dlt.py
         git add -A
-        git commit -m "Distributed ledger transaction info" -a || echo "Warning: git commit returned error code $? (Hopefully nothing to commit)"
+        git commit -m "Autoupdate salt and hash info" -a || echo "Warning: git commit returned error code $? (Hopefully nothing to commit)"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:

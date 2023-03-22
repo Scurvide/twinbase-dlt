@@ -1,6 +1,8 @@
 import os
 import json
 import hashlib
+import uuid
+import yaml
 
 from web3 import Web3
 from eth_account.signers.local import LocalAccount
@@ -115,7 +117,7 @@ def main() -> None:
         if not os.path.isfile(twin_document):
             raise FileNotFoundError(f"Twin is missing file: {twin_document}")
 
-        # Generate the hash that will be stored in the DLT
+        # Generate hash to check if the twin has been modified
         twin_hash = hash_json_file(twin_document)
 
         # Construct path to twin's hash info file
@@ -126,12 +128,26 @@ def main() -> None:
             print(f"Twin hash is unchanged from DLT, skipping: {twin_document}")
             continue
 
+        # Modify salt fo twin document
+        salt = str(uuid.uuid4())
+        with open(twin_document, 'r') as jsonfiler:
+            data = json.load(jsonfiler)
+            data['salt'] = salt
+        with open(twin_document, 'w') as jsonfilew:
+            json.dump(data, jsonfilew, indent=4)
+        with open(twin_folder + "/index.yaml", 'w') as yamlfilew:
+            yaml.dump(data, yamlfilew, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+        # Generate hash from the salted document to be stored in the DLT
+        twin_hash_salted = hash_json_file(twin_document)
+
+        # Submit hash to DLT
         print(f"Submitting twin document hash to DLT: {twin_document}")
-        transaction_hash = submit_twin_hash_to_dlt(dlt, nonce, twin_hash)
+        transaction_hash = submit_twin_hash_to_dlt(dlt, nonce, twin_hash_salted)
         nonce += 1  # Increment nonce for following transactions
 
         # Save transaction info to hash file for reference
-        save_transaction_info(twin_hash, transaction_hash, twin_hash_file)
+        save_transaction_info(twin_hash_salted, transaction_hash, twin_hash_file)
 
 
 if __name__ == "__main__":
