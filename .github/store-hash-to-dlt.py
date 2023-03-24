@@ -3,6 +3,7 @@ import json
 import hashlib
 import yaml
 import secrets
+from typing import Optional
 
 from web3 import Web3
 from eth_account.signers.local import LocalAccount
@@ -94,7 +95,7 @@ def submit_twin_hash_to_dlt(dlt: Web3, nonce: int, twin_hash: str) -> str:
     return transaction_hash.hex()
 
 
-def generate_salt(previous_twin_hash_info: str | None = None) -> str:
+def generate_salt(previous_twin_hash_info: Optional[str] = None) -> str:
     """Generate salt from the hash of previous twin's hash info file,
     or from random hex string"""
 
