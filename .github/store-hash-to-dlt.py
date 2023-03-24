@@ -1,6 +1,8 @@
 import os
 import json
 import hashlib
+import yaml
+import secrets
 
 from web3 import Web3
 from eth_account.signers.local import LocalAccount
@@ -92,6 +94,46 @@ def submit_twin_hash_to_dlt(dlt: Web3, nonce: int, twin_hash: str) -> str:
     return transaction_hash.hex()
 
 
+def generate_salt(previous_twin_hash_info: str | None = None) -> str:
+    """Generate salt from the hash of previous twin's hash info file,
+    or from random hex string"""
+
+    if previous_twin_hash_info and os.path.isfile(previous_twin_hash_info):
+        # Generate hash of previous twin's hash info file
+        salt = hash_json_file(previous_twin_hash_info)
+    else:
+        # Generate random hex string
+        salt = "0x" + secrets.token_hex(16)
+    return salt
+
+
+def salt_twin(twin_folder: str, salt: str) -> str:
+    """Add salt as attribute to twin json and yaml documents,
+    returns salted twin json file path."""
+
+    twin_json = twin_folder + "/index.json"
+    twin_yaml = twin_folder + "/index.yaml"
+
+    # Add salt to twin json
+    with open(twin_json) as json_file:
+        twin_document = json.load(json_file)
+    twin_document["salt"] = salt
+    with open(twin_json, "w") as json_file:
+        json.dump(twin_document, json_file, indent=4)
+
+    # Add salt to twin yaml
+    with open(twin_yaml, "w") as yaml_file:
+        yaml.dump(
+            twin_document,
+            yaml_file,
+            default_flow_style=False,
+            sort_keys=False,
+            allow_unicode=True,
+        )
+
+    return twin_json
+
+
 def main() -> None:
     # Connect to the DLT network
     dlt = Web3(DLT_PROVIDER)
@@ -115,7 +157,7 @@ def main() -> None:
         if not os.path.isfile(twin_document):
             raise FileNotFoundError(f"Twin is missing file: {twin_document}")
 
-        # Generate the hash that will be stored in the DLT
+        # Generate hash to check if the twin has been modified
         twin_hash = hash_json_file(twin_document)
 
         # Construct path to twin's hash info file
@@ -126,12 +168,20 @@ def main() -> None:
             print(f"Twin hash is unchanged from DLT, skipping: {twin_document}")
             continue
 
+        # Add new salt to twin documents
+        salt = generate_salt(twin_hash_file)
+        salted_twin_document = salt_twin(twin_folder, salt)
+
+        # Generate hash from the freshly salted document to be stored in the DLT
+        salted_twin_hash = hash_json_file(salted_twin_document)
+
+        # Submit hash to DLT
         print(f"Submitting twin document hash to DLT: {twin_document}")
-        transaction_hash = submit_twin_hash_to_dlt(dlt, nonce, twin_hash)
+        transaction_hash = submit_twin_hash_to_dlt(dlt, nonce, salted_twin_hash)
         nonce += 1  # Increment nonce for following transactions
 
-        # Save transaction info to hash file for reference
-        save_transaction_info(twin_hash, transaction_hash, twin_hash_file)
+        # Save transaction info to new hash file
+        save_transaction_info(salted_twin_hash, transaction_hash, twin_hash_file)
 
 
 if __name__ == "__main__":
