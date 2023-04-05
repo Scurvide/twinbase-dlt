@@ -94,19 +94,6 @@ def submit_twin_hash_to_dlt(dlt: Web3, nonce: int, twin_hash: str) -> str:
     return transaction_hash.hex()
 
 
-def generate_salt(previous_twin_hash_info: str | None = None) -> str:
-    """Generate salt from the hash of previous twin's hash info file,
-    or from random hex string"""
-
-    if previous_twin_hash_info and os.path.isfile(previous_twin_hash_info):
-        # Generate hash of previous twin's hash info file
-        salt = hash_json_file(previous_twin_hash_info)
-    else:
-        # Generate random hex string
-        salt = "0x" + secrets.token_hex(16)
-    return salt
-
-
 def salt_twin(twin_folder: str, salt: str) -> str:
     """Add salt as attribute to twin json and yaml documents,
     returns salted twin json file path."""
@@ -169,7 +156,7 @@ def main() -> None:
             continue
 
         # Add new salt to twin documents
-        salt = generate_salt(twin_hash_file)
+        salt = "0x" + secrets.token_hex(16)
         salted_twin_document = salt_twin(twin_folder, salt)
 
         # Generate hash from the freshly salted document to be stored in the DLT
