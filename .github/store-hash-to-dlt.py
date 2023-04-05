@@ -16,6 +16,7 @@ DLT_PROVIDER = Web3.HTTPProvider(DLT_HTTP_NODE)
 
 TWIN_DOCUMENT_FOLDERS = "./docs"
 HASH_INFO_FILE = "hash-info.json"
+HASH_ALGORITHM = "MD5"
 
 
 def hash_json_file(document_path: str) -> str:
@@ -60,6 +61,7 @@ def save_transaction_info(
     transaction_info = {
         "dlt": DLT_TYPE,
         "node": DLT_HTTP_NODE,
+        "twinHashAlgorithm": HASH_ALGORITHM,
         "twinHash": twin_hash,
         "transactionHash": transaction_hash,
     }
