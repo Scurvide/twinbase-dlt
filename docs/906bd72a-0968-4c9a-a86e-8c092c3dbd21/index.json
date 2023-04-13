@@ -1,0 +1,15 @@
+{
+    "dt-id": "https://dtid.org/906bd72a-0968-4c9a-a86e-8c092c3dbd21",
+    "hosting-iri": "https://Scurvide.github.io/twinbase-dlt/906bd72a-0968-4c9a-a86e-8c092c3dbd21",
+    "name": "Juuso's test twin 2",
+    "description": "Contains nested data.",
+    "nested": [
+        {
+            "data": "here",
+            "and": "here too"
+        }
+    ],
+    "baseurl": "https://Scurvide.github.io/twinbase-dlt",
+    "edit": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/906bd72a-0968-4c9a-a86e-8c092c3dbd21/index.yaml",
+    "edit-json": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/906bd72a-0968-4c9a-a86e-8c092c3dbd21/index.json"
+}
