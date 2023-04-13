@@ -11,5 +11,6 @@
     ],
     "baseurl": "https://Scurvide.github.io/twinbase-dlt",
     "edit": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/906bd72a-0968-4c9a-a86e-8c092c3dbd21/index.yaml",
-    "edit-json": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/906bd72a-0968-4c9a-a86e-8c092c3dbd21/index.json"
+    "edit-json": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/906bd72a-0968-4c9a-a86e-8c092c3dbd21/index.json",
+    "salt": "0xc2ee84047476fe2cda559f91ea573096"
 }
