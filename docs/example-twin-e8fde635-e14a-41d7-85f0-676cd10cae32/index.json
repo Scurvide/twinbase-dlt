@@ -5,5 +5,6 @@
     "description": "This is an example twin to show what a DT document can look like. You can safely remove the folder that contains this document.",
     "baseurl": "https://twinbase.github.io/twinbase",
     "edit": "https://github.com/twinbase/twinbase/edit/main/docs/example-twin-e8fde635-e14a-41d7-85f0-676cd10cae32/index.yaml",
-    "edit-json": "https://github.com/twinbase/twinbase/edit/main/docs/example-twin-e8fde635-e14a-41d7-85f0-676cd10cae32/index.json"
+    "edit-json": "https://github.com/twinbase/twinbase/edit/main/docs/example-twin-e8fde635-e14a-41d7-85f0-676cd10cae32/index.json",
+    "salt": "0xd6774552b71585c1c6ffbff1e9e313691569b751113c8459266b305e9db41703"
 }

@@ -5,5 +5,6 @@
     "description": "Another twin to test hashing function.",
     "baseurl": "https://Scurvide.github.io/twinbase-dlt",
     "edit": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/a4d88a25-c31a-46b1-8681-ad899c1f2421/index.yaml",
-    "edit-json": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/a4d88a25-c31a-46b1-8681-ad899c1f2421/index.json"
+    "edit-json": "https://github.com/Scurvide/twinbase-dlt/edit/main/docs/a4d88a25-c31a-46b1-8681-ad899c1f2421/index.json",
+    "salt": "0x9e70ba0f77e9d184b47cdf96100d6f7568faed1824de07cfac47fd83e83f854e"
 }
