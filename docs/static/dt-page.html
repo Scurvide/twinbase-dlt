@@ -112,9 +112,7 @@
       })
   </script>
 
-  <script src="../static/web3/web3.min.js"></script>
-  <script src="../static/crypto-js/core.min.js"></script>
-  <script src="../static/crypto-js/md5.js"></script>
+  <script type="text/javascript" src="../static/web3/web3.min.js"></script>
   <script type="text/javascript">
     // Read transaction hash to variable
     var hashInfo
@@ -127,16 +125,9 @@
     // Hash the twin JSON document
     var twinHash;
     fetch("./index.json")
-      .then((response) => response.json())
-      .then((twinDocument) => {
-        let stringToHash = JSON.stringify(
-          Object.keys(twinDocument).sort()
-            .reduce((obj, key) => {
-              obj[key] = twinDocument[key];
-              return obj;
-            }, {})
-        );
-        twinHash = "0x" + CryptoJS.MD5(stringToHash).toString();
+      .then((response) => response.text())
+      .then((twinJSON) => {
+        twinHash = Web3.utils.soliditySha3(twinJSON)
       });
 
     function validateTwinHash() {
@@ -174,6 +165,9 @@
 
       web3.eth.getTransaction(hashInfo.transactionHash)
         .then((transaction) => {
+
+          console.log("Twin hash:   " + twinHash);
+          console.log("Ledger hash: " + transaction.input);
 
           if (transaction.input === twinHash) {
             console.log("Document is valid");

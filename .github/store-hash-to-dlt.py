@@ -1,9 +1,8 @@
 import os
 import json
-import hashlib
-import yaml
 import secrets
 
+import yaml
 from web3 import Web3
 from eth_account.signers.local import LocalAccount
 
@@ -16,20 +15,23 @@ DLT_PROVIDER = Web3.HTTPProvider(DLT_HTTP_NODE)
 
 TWIN_DOCUMENT_FOLDERS = "./docs"
 HASH_INFO_FILE = "hash-info.json"
-HASH_ALGORITHM = "MD5"
+HASH_ALGORITHM = "Keccak256"
+
+
+def hash_text(input: str) -> str:
+    """Return Keccak256 hash in string representation."""
+
+    return Web3.keccak(text=input).hex()
 
 
 def hash_json_file(document_path: str) -> str:
-    """MD5 hash given json document in minimized format, returns hash in string format."""
+    """Hash given json document to hexstring."""
 
     with open(document_path) as file:
-        document = json.load(file)
-    # Sort and minimize the json to ensure the hashed document format is consistent
-    minimized_json = json.dumps(document, sort_keys=True, separators=(",", ":"))
-    # Encode to bytes
-    json_bytes = minimized_json.encode("utf-8")
-    # Return MD5 hash in string representation
-    return "0x" + hashlib.md5(json_bytes).hexdigest()
+        json_string = file.read()
+
+    # Return Keccak256 hash in string representation
+    return hash_text(json_string)
 
 
 def hash_requires_update(dlt: Web3, twin_hash: str, twin_hash_info_file: str) -> bool:
@@ -158,7 +160,7 @@ def main() -> None:
             continue
 
         # Add new salt to twin documents
-        salt = "0x" + secrets.token_hex(16)
+        salt = hash_text("0x" + secrets.token_hex(32))
         salted_twin_document = salt_twin(twin_folder, salt)
 
         # Generate hash from the freshly salted document to be stored in the DLT
