@@ -91,8 +91,12 @@ There are currently no official support mechanisms for Twinbase, but [Juuso](htt
 
 ## Thanks
 
-Twinbase uses
+Python: See `requirements.txt` and `dev.in`
+
+JavaScript: Twinbase uses
 - [mini.css](https://minicss.org/) to stylize web pages and 
 - [json-view](https://github.com/pgrabovets/json-view) to display digital twin documents.
+- [web3.js](https://github.com/web3/web3.js) to perform crypto operations in the browser.
+  (Version [1.8.2](https://github.com/web3/web3.js/blob/632c5d3a7b91eeb436f043311db6350f950b3dda/dist/web3.min.js))
 
 Thanks to the developers for the nice pieces of software!
