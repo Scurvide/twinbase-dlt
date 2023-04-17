@@ -66,6 +66,8 @@ Hashes may be stored to a DLT automatically with GitHub Actions. For the Action 
 
 The secrets and variables are set in the repository settings on GitHub under  
  `Settings` > `Secrets and variables` > `Actions`.
+ > **Note**
+ > These can be set only by users with Admin access to the repository.
    - Set `DLT_PRIVATE_KEY` as `New repository secret`.
    - Set `DLT_HTTP_NODE`, `DLT_TYPE`, `DLT_GAS_PROVIDED` and `DLT_AUTOMATIC` as `Variables` > `New repository variable`.
 
