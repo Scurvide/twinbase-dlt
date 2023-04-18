@@ -7,7 +7,6 @@ This new DLT (distributed ledger technology) version of Twinbase supports anchor
 
 See an example server live at [dtw.twinbase.org](https://dtw.twinbase.org) and details in an open access journal article: Autiosalo, J., Siegel, J., Tammi, K., 2021. Twinbase: Open-Source Server Software for the Digital Twin Web. IEEE Access 9, 140779–140798. https://doi.org/10.1109/ACCESS.2021.3119487
 
-
 Twinbase is at __*initial development*__ phase and backwards incompatible changes may occur.
 Update mechanisms are not yet implemented.
 
@@ -20,6 +19,16 @@ Experiences with Twinbase are used to develop further versions of the [digital t
 You can browse the web interface of this Twinbase from the URL shown on the `baseurl` field in the [/docs/index.yaml](/docs/index.yaml) file if this Twinbase is properly configured.
 
 You can fetch twin documents in Python with the [dtweb-python](https://github.com/juusoautiosalo/dtweb-python) library. Available as `dtweb` from pip.
+
+## To create your own Twinbase
+
+1. Create a new repository with the "Use this template" button on the [twinbase/twinbase](https://github.com/twinbase/twinbase) page. (Sign in to GitHub if you can't see the button.)
+2. In the newly created repository, activate GitHub Actions from the Actions tab if necessary, and manually run the "File modifier" workflow. (This will modify the files to match your GitHub account. Running the workflow several times will not cause any harm.)
+3. Activate GitHub Pages from Settings > Pages > Source to `main` branch and `/docs` folder.
+4. A link to the web interface of Twinbase will be shown at the Pages page. If you have not made any domain name customizations, it is in the form *\<username\>.github.io/\<repository name\>*.
+5. Updates: Unfortunately any updates from the template repository must currently be made manually. But you can also just make another Twinbase and copy your twin folders and files there.
+
+Forks can be used as well and might make updating easier, but their use has not been properly tested.
 
 ### Creating new twins to your Twinbase
 
@@ -39,16 +48,6 @@ Contribution guidelines are not yet established, but useful contributions are we
 5. Submit a pull request.
 
 Local development is a bit tricky as Twinbase uses GitHub Actions as an intergal part of the platform, but feel free to try!
-
-## To create your own Twinbase
-
-1. Create a new repository with the "Use this template" button on the [twinbase/twinbase](https://github.com/twinbase/twinbase) page. (Sign in to GitHub if you can't see the button.)
-2. In the newly created repository, activate GitHub Actions from the Actions tab if necessary, and manually run the "File modifier" workflow. (This will modify the files to match your GitHub account. Running the workflow several times will not cause any harm.)
-3. Activate GitHub Pages from Settings > Pages > Source to `main` branch and `/docs` folder.
-4. A link to the web interface of Twinbase will be shown at the Pages page. If you have not made any domain name customizations, it is in the form *\<username\>.github.io/\<repository name\>*.
-5. Updates: Unfortunately any updates from the template repository must currently be made manually. But you can also just make another Twinbase and copy your twin folders and files there.
-
-Forks can be used as well and might make updating easier, but their use has not been properly tested.
 
 ## Store hashes of twin documents to an Ethereum distributed ledger
 Hashes of twin documents (`index.json`) can be stored to a DLT (distributed ledger technology) for later verification of the integrity of the document. Hashes may be stored to a DLT with GitHub Actions.
