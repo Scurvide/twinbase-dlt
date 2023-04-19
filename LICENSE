@@ -1,6 +1,12 @@
+For files in docs/static/web3:
+    See license file: docs/static/web3/web3.min.js.LICENSE.txt
+
+All other files:
+
 MIT License
 
-Copyright (c) 2021 Juuso Autiosalo
+Copyright (c) 2021-2022 Juuso Autiosalo
+Copyright (c) 2023 Jani Hietala and Juuso Autiosalo
 
 For file: /docs/static/jsonview.bundle.css
     Copyright (c) 2020 Pavel Grabovets

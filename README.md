@@ -1,12 +1,13 @@
-# Twinbase
+# Twinbase DLT
 
-Twinbase is an open source platform for managing and distributing [digital twin documents](https://doi.org/10.1109/ACCESS.2020.3045856).
+Twinbase is an open-source platform for implementing [Semantic Twins](https://github.com/IoT-NGIN/guide-to-semantic-twins).
+In particular, Twinbase helps to manage and distribute [digital twin documents](https://doi.org/10.1109/ACCESS.2020.3045856).
 It is built on git and can be hosted on free-of-charge GitHub services.
+This new DLT (distributed ledger technology) version of Twinbase supports anchoring the history of twin documents into a distributed ledger.
 
 See an example server live at [dtw.twinbase.org](https://dtw.twinbase.org) and details in an open access journal article: Autiosalo, J., Siegel, J., Tammi, K., 2021. Twinbase: Open-Source Server Software for the Digital Twin Web. IEEE Access 9, 140779–140798. https://doi.org/10.1109/ACCESS.2021.3119487
 
-
-Twinbase is at __*initial development*__ phase and backwards incompatible changes are expected frequently.
+Twinbase is at __*initial development*__ phase and backwards incompatible changes may occur.
 Update mechanisms are not yet implemented.
 
 Twinbase is hosted by Aalto University where its development was initiated as a result of the experience from multiple digital twin related projects.
@@ -18,6 +19,21 @@ Experiences with Twinbase are used to develop further versions of the [digital t
 You can browse the web interface of this Twinbase from the URL shown on the `baseurl` field in the [/docs/index.yaml](/docs/index.yaml) file if this Twinbase is properly configured.
 
 You can fetch twin documents in Python with the [dtweb-python](https://github.com/juusoautiosalo/dtweb-python) library. Available as `dtweb` from pip.
+
+## To create your own Twinbase
+
+1. Create a new repository with the "Use this template" button on the [twinbase/twinbase](https://github.com/twinbase/twinbase) page. (Sign in to GitHub if you can't see the button.)
+2. Make GitHub Actions work
+    1. In the newly created repository, activate GitHub Actions from the Actions tab (if necessary).
+    2. From Settings > Actions > General > Workflow permissions, activate "Read and write permissions" and save. (This allows GitHub actions to push to this repository.)
+    3. Manually run the "File modifier" workflow from: Actions > File Modifier > Run Workflow > Run workflow. (This will modify the files to match your GitHub account. Running the workflow several times will not cause any harm.)
+3. Activate GitHub Pages from Settings > Pages:
+    1. Source: "Deploy from a branch"
+    2. Branch: Select `main` and `/docs` and save.
+4. A link to the web interface of Twinbase will be shown at the Pages page. If you have not made any domain name customizations, it is in the form *\<username\>.github.io/\<repository name\>*.
+5. Updates: Unfortunately any updates from the template repository must currently be made manually. But you can also just make another Twinbase and copy your twin folders and files there.
+
+Forks are not recommended for creating a Twinbase instance.
 
 ### Creating new twins to your Twinbase
 
@@ -38,22 +54,12 @@ Contribution guidelines are not yet established, but useful contributions are we
 
 Local development is a bit tricky as Twinbase uses GitHub Actions as an intergal part of the platform, but feel free to try!
 
-## To create your own Twinbase
-
-1. Create a new repository with the "Use this template" button on the [twinbase/twinbase](https://github.com/twinbase/twinbase) page. (Sign in to GitHub if you can't see the button.)
-2. In the newly created repository, activate GitHub Actions from the Actions tab if necessary, and manually run the "File modifier" workflow. (This will modify the files to match your GitHub account. Running the workflow several times will not cause any harm.)
-3. Activate GitHub Pages from Settings > Pages > Source to `main` branch and `/docs` folder.
-4. A link to the web interface of Twinbase will be shown at the Pages page. If you have not made any domain name customizations, it is in the form *\<username\>.github.io/\<repository name\>*.
-5. Updates: Unfortunately any updates from the template repository must currently be made manually. But you can also just make another Twinbase and copy your twin folders and files there.
-
-Forks can be used as well and might make updating easier, but their use has not been properly tested.
-
 ## Store hashes of twin documents to an Ethereum distributed ledger
-Hashes of twin documents (`index.json`) can be stored to a DLT (distributed ledger technology) for later verification of the integrity of the document.
+Hashes of twin documents (`index.json`) can be stored to a DLT (distributed ledger technology) for later verification of the integrity of the document. Hashes may be stored to a DLT with GitHub Actions.
 
-Hashes may be stored to a DLT automatically with GitHub Actions. For the Action to work you need to first define following information related to the DLT used:
+To make the DLT functionality work, you need to define following information:
 - `DLT_TYPE`
-  - DLT name, for example `Ethereum Sepolia Testnet`. This is used to sufficiently describe the DLT that is being used so that it can be found by a human verifying the document later.
+  - Name of DLT, for example `Ethereum Sepolia Testnet`. This is used to sufficiently describe the DLT that is being used so that it can be found by a human verifying the document later.
 - `DLT_HTTP_NODE`
   - DLT HTTP endpoint. You can create one at various node providers for free, for example, [Infura](https://www.infura.io/).
 - `DLT_PRIVATE_KEY`
@@ -64,8 +70,10 @@ Hashes may be stored to a DLT automatically with GitHub Actions. For the Action 
   - Set to `true` to send hashes to DLT automatically when a DT document is modified or created. Otherwise, send hashes manually by running the `Submit twin document hash to DLT` workflow from the `Actions` tab.
   - Allowed values: `true` or `false`
 
-The secrets and variables are set in the repository settings on GitHub under  
+These secrets and variables are set in the repository settings on GitHub under  
  `Settings` > `Secrets and variables` > `Actions`.
+ > **Note**
+ > These can be set only by users with Admin access to the repository.
    - Set `DLT_PRIVATE_KEY` as `New repository secret`.
    - Set `DLT_HTTP_NODE`, `DLT_TYPE`, `DLT_GAS_PROVIDED` and `DLT_AUTOMATIC` as `Variables` > `New repository variable`.
 
@@ -89,8 +97,12 @@ There are currently no official support mechanisms for Twinbase, but [Juuso](htt
 
 ## Thanks
 
-Twinbase uses
+Python: See `requirements.txt` and `dev.in`
+
+JavaScript: Twinbase uses
 - [mini.css](https://minicss.org/) to stylize web pages and 
 - [json-view](https://github.com/pgrabovets/json-view) to display digital twin documents.
+- [web3.js](https://github.com/web3/web3.js) to perform crypto operations in the browser.
+  (Version [1.8.2](https://github.com/web3/web3.js/blob/632c5d3a7b91eeb436f043311db6350f950b3dda/dist/web3.min.js))
 
 Thanks to the developers for the nice pieces of software!
