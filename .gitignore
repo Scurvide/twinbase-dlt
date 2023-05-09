@@ -3,3 +3,8 @@ env/
 venv/
 .venv
 .env
+local.env
+.mypy_cache
+package.json
+yarn.lock
+node_modules
