@@ -4,6 +4,7 @@ import secrets
 
 import yaml
 from web3 import Web3
+from web3.exceptions import TransactionNotFound
 from eth_account.signers.local import LocalAccount
 
 DLT_TYPE = os.environ["DLT_TYPE"]
@@ -47,8 +48,8 @@ def hash_requires_update(dlt: Web3, twin_hash: str, twin_hash_info_file: str) ->
         if int(twin_hash, 16) == int(transaction["input"], 16):
             # Hash has not changed from DLT, no update needed
             return False
-    except (FileNotFoundError, KeyError, ValueError):
-        # File or hash not found, or hash is invalid
+    except (FileNotFoundError, KeyError, ValueError, TransactionNotFound):
+        # File, hash, or transaction not found, or hash is invalid
         pass
     # Hash requires an update
     return True
