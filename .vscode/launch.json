@@ -5,13 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: DLT-hash",
+            "name": "Node: Merkle Tree",
+            "program": "${workspaceFolder}/.github/contract/construct-merkle-tree.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/local.env",
+        },
+        {
+            "name": "Python: File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/.github/store-hash-to-dlt.py",
+            "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/local.env"
         }
     ]
 }
