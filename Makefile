@@ -4,6 +4,12 @@ dev-requirements:
 sync:
 	pip-sync dev.txt
 
+bundle:
+	npm run build
+
+compile-typescript:
+	npm run tsc
+
 ganache:
 	yarn add ganache
 
